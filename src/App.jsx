@@ -74,46 +74,16 @@ function App() {
   }, [undo, redo]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">应用图标生成器</h1>
-          <p className="text-gray-600">快速创建精美的应用图标</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+      <div className="max-w-7xl mx-auto space-y-4">
+        <header className="text-center py-4">
+          <h1 className="text-3xl font-bold text-slate-800">应用图标生成器</h1>
         </header>
 
-        <div className="flex gap-4 mb-4 justify-center">
-          <button
-            onClick={undo}
-            disabled={!canUndo}
-            className={`px-4 py-2 rounded flex items-center gap-2 ${
-              canUndo
-                ? 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            ← 撤销
-          </button>
-          <button
-            onClick={redo}
-            disabled={!canRedo}
-            className={`px-4 py-2 rounded flex items-center gap-2 ${
-              canRedo
-                ? 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            }`}
-          >
-            重做 →
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <PreviewArea config={config} onExport={handleExport} canUndo={canUndo} canRedo={canRedo} undo={undo} redo={redo} />
           <ControlPanel config={config} onConfigChange={setConfig} />
-          <PreviewArea config={config} onExport={handleExport} />
         </div>
-
-        <footer className="text-center mt-8 text-sm text-gray-600">
-          提示: 使用 Ctrl+Z / Ctrl+Y 快捷键进行撤销/重做
-        </footer>
       </div>
     </div>
   );
