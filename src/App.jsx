@@ -19,15 +19,28 @@ const DEFAULT_CONFIG = {
 function App() {
   const { state: config, setState: setConfig, undo, redo, canUndo, canRedo } = useHistory(DEFAULT_CONFIG);
 
-  // 加载默认图标
+  // 加载默认图标（优先内置 SVG，失败则尝试 Font Awesome 日历图标作为回退）
   useEffect(() => {
     const loadDefaultIcon = async () => {
       try {
+        // 尝试加载内置 SVG
         const response = await fetch('/src/assets/icons/calendar.svg');
         const svgContent = await response.text();
         setConfig({ ...config, iconSvg: svgContent });
-      } catch (error) {
-        console.error('Failed to load default icon:', error);
+        return;
+      } catch (e) {
+        console.warn('内置 SVG 加载失败，尝试 Font Awesome 作为回退');
+      }
+      try {
+        const { getIconByName } = await import('./utils/fontAwesomeHelper.js');
+        const iconDef = getIconByName('faCalendar');
+        if (iconDef) {
+          const { icon } = await import('@fortawesome/fontawesome-svg-core');
+          const svgObj = icon(iconDef, { styles: { color: '#ffffff', 'font-size': '128px' } });
+          setConfig({ ...config, iconSvg: svgObj.html[0] });
+        }
+      } catch (err) {
+        console.error('Font Awesome 回退加载失败:', err);
       }
     };
     if (!config.iconSvg) {

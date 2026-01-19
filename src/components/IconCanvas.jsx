@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const IconCanvas = forwardRef(({
   size = 128,
@@ -8,6 +8,13 @@ const IconCanvas = forwardRef(({
   iconColor = '#ffffff',
   iconScale = 0.6
 }, ref) => {
+  // Extract viewBox from original SVG
+  const viewBoxMatch = iconSvg?.match(/viewBox="([^"]*)"/);
+  const viewBox = viewBoxMatch ? viewBoxMatch[1] : '0 0 512 512';
+
+  // Extract inner SVG content
+  const innerContent = iconSvg?.replace(/<\/?svg[^>]*>/g, '') || '';
+
   return (
     <div
       ref={ref}
@@ -25,10 +32,16 @@ const IconCanvas = forwardRef(({
           style={{
             width: `${size * iconScale}px`,
             height: `${size * iconScale}px`,
-            color: iconColor,
           }}
-          dangerouslySetInnerHTML={{ __html: iconSvg }}
-        />
+        >
+          <svg
+            width="100%"
+            height="100%"
+            viewBox={viewBox}
+            fill={iconColor}
+            dangerouslySetInnerHTML={{ __html: innerContent }}
+          />
+        </div>
       )}
     </div>
   );
