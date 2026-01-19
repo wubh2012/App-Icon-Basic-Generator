@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import IconCanvas from './IconCanvas';
 
-const PreviewArea = ({ config, onExport, canUndo, canRedo, undo, redo }) => {
+const PreviewArea = ({ config, onExport, onReset, canUndo, canRedo, undo, redo }) => {
   const canvasRef = useRef(null);
 
   const handleExport = (format) => {
@@ -61,6 +61,12 @@ const PreviewArea = ({ config, onExport, canUndo, canRedo, undo, redo }) => {
             }`}
           >
             重做 →
+          </button>
+          <button
+            onClick={onReset}
+            className="px-3 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-sm transition-colors"
+          >
+            🔄 重置
           </button>
           <div className="w-px h-6 bg-slate-200"></div>
           <button

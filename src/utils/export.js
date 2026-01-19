@@ -1,12 +1,12 @@
 import html2canvas from 'html2canvas';
 
-export const exportToPNG = async (element, filename = 'icon.png') => {
+export const exportToPNG = async (element, filename = 'icon.png', scale = 2) => {
   if (!element) return;
 
   try {
     const canvas = await html2canvas(element, {
       backgroundColor: null,
-      scale: 2, // 高清导出
+      scale: scale,
     });
 
     canvas.toBlob((blob) => {

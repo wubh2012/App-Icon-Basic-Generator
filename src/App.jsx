@@ -14,6 +14,7 @@ const DEFAULT_CONFIG = {
   label: '',
   fontSize: 14,
   textColor: '#333333',
+  exportScale: 2,
 };
 
 function App() {
@@ -52,9 +53,15 @@ function App() {
     const filename = `${config.label || 'icon'}.${format}`;
 
     if (format === 'png') {
-      exportToPNG(element, filename);
+      exportToPNG(element, filename, config.exportScale);
     } else if (format === 'svg') {
       exportToSVG(config, filename);
+    }
+  };
+
+  const handleReset = () => {
+    if (window.confirm('确定要重置所有参数吗？')) {
+      setConfig(DEFAULT_CONFIG);
     }
   };
 
@@ -81,7 +88,7 @@ function App() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <PreviewArea config={config} onExport={handleExport} canUndo={canUndo} canRedo={canRedo} undo={undo} redo={redo} />
+          <PreviewArea config={config} onExport={handleExport} onReset={handleReset} canUndo={canUndo} canRedo={canRedo} undo={undo} redo={redo} />
           <ControlPanel config={config} onConfigChange={setConfig} />
         </div>
       </div>

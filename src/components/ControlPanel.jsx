@@ -84,7 +84,7 @@ const ControlPanel = ({ config, onConfigChange }) => {
               value={config.cornerRadius}
               onChange={(e) => updateConfig('cornerRadius', parseInt(e.target.value))}
               min="0"
-              max="30"
+              max="100"
               className="flex-1"
             />
             <span className="text-sm text-slate-600 w-12">{config.cornerRadius}px</span>
@@ -98,11 +98,26 @@ const ControlPanel = ({ config, onConfigChange }) => {
               type="range"
               value={config.iconScale * 100}
               onChange={(e) => updateConfig('iconScale', parseInt(e.target.value) / 100)}
-              min="40"
-              max="90"
+              min="1"
+              max="100"
               className="flex-1"
             />
             <span className="text-sm text-slate-600 w-12">{Math.round(config.iconScale * 100)}%</span>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-2">导出比例</label>
+          <div className="flex items-center gap-3">
+            <input
+              type="range"
+              value={config.exportScale}
+              onChange={(e) => updateConfig('exportScale', parseInt(e.target.value))}
+              min="1"
+              max="4"
+              className="flex-1"
+            />
+            <span className="text-sm text-slate-600 w-12">{config.exportScale}x</span>
           </div>
         </div>
       </Section>
